@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
-Live preview [](https://goofy-stonebraker-c0d0bf.netlify.app/)
+### Links
+
+- Live Site URL: [live site URL](https://goofy-stonebraker-c0d0bf.netlify.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
