@@ -1,24 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable no-unreachable */
+import Cards from "./Cards";
+import { useState, useEffect } from "react";
+import Loading from "./Loading";
+import Header from "./Header";
 
 function App() {
+  const url = "https://course-api.com/react-tours-project";
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const removeTour = (id) => {
+    const newTour = data.filter((item) => item.id !== id);
+    setData(newTour);
+    console.log(data);
+  };
+
+  const getData = async () => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setTimeout(() => {
+        setData(data);
+        setLoading(false);
+      }, 500);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => getData(), []);
+  console.log(data);
+
+  if (loading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className='flex align-center justify-center flex-col'>
+        <Header />
+        <button className='btn btn-primary mx-auto' onClick={() => getData()}>
+          Refresh
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Cards data={data} removeTour={removeTour} />
+    </>
   );
 }
 
